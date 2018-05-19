@@ -8,7 +8,8 @@ namespace FakeNameGenerator
     enum Gender
     {
         Male,
-        Female
+        Female, 
+        Random
     }
 
     enum NameSet
@@ -107,9 +108,24 @@ namespace FakeNameGenerator
     }
     #endregion
 
+    class AdvancedOptions
+    {
+        public short MinAge { get; set; } = 0;
+        public short MaxAge { get; set; } = 100;
+        public short MalePercentage { get; set; } = 50;
+        public bool _enabled;
+
+        public bool Enabled {
+            get { return _enabled; }
+        }
+        public void Enable() { _enabled = true; }
+        public void Disable() { _enabled = false; }
+    }
+
     class FakeNameGeneratorAPI
     {
         public FakeNameGeneratorAPI() { }
+        public AdvancedOptions AdvancedOptions = new AdvancedOptions();
 
         #region Enum Handling
         private string GetCountry(Country c)
@@ -258,7 +274,7 @@ namespace FakeNameGenerator
         /// <returns>Identity</returns>
         public Identity CreateIdentity()
         {
-            return CreateIdentity(Gender.Male, NameSet.American, Country.UnitedStates);
+            return CreateIdentity(Gender.Random, NameSet.American, Country.UnitedStates);
         }
 
         /// <summary>
@@ -291,12 +307,54 @@ namespace FakeNameGenerator
         /// <returns>Identity</returns>
         public Identity CreateIdentity(Gender g, NameSet ns, Country c)
         {
+            string url = (AdvancedOptions.Enabled)
+                ? "https://www.fakenamegenerator.com/advanced.php?t=country&n[]=" + String.Format("{0}&c[]={1}&gen={2}&age-min={3}&age-max={4}", GetNameSet(ns), GetCountry(c), AdvancedOptions.MalePercentage, AdvancedOptions.MinAge, AdvancedOptions.MaxAge)
+                : "http://www.fakenamegenerator.com" + String.Format("/gen-{0}-{1}-{2}.php", (g == Gender.Male) ? "male" : ((g == Gender.Female) ? "female" : "random"), GetNameSet(ns), GetCountry(c))
+            ;
+
+            return FetchIdentityData(url);
+        }
+
+        /// <summary>
+        /// Returns new identity from multiple namesets and countries
+        /// </summary>
+        /// <param name="ns">NameSet[] array of namesets</param>
+        /// <param name="c">Country[] array of countries</param>
+        /// <returns>Identity</returns>
+        public Identity CreateIdentity(NameSet[] ns, Country[] c)
+        {
+            //https://www.fakenamegenerator.com/advanced.php?t=country&n[]=nl&n[]=fr&c[]=cygk&gen=50&age-min=19&age-max=85
+            string url = "https://www.fakenamegenerator.com/advanced.php?t=country";
+
+            foreach (NameSet nameset in ns)
+            {
+                url += "&n[]=" + GetNameSet(nameset);
+            }
+            foreach (Country country in c)
+            {
+                url += "&c[]=" + GetCountry(country);
+            }
+
+            if (AdvancedOptions.Enabled)
+            {
+                url += String.Format("&gen={0}&age-min={1}&age-max={2}", AdvancedOptions.MalePercentage, AdvancedOptions.MinAge, AdvancedOptions.MaxAge);
+            }
+            
+            return FetchIdentityData(url);
+        }
+        /// <summary>
+        /// Returns an identity object of scraped data
+        /// </summary>
+        /// <param name="url">URL to fetch data from</param>
+        /// <returns>Identity</returns>
+        private Identity FetchIdentityData(string url)
+        {
             Identity id = new Identity();
             try
             {
                 using (WebClient wClient = new WebClient())
                 {
-                    string html_source = wClient.DownloadString("http://www.fakenamegenerator.com" + String.Format("/gen-{0}-{1}-{2}.php", (g == Gender.Male) ? "male" : "female", GetNameSet(ns), GetCountry(c)));
+                    string html_source = wClient.DownloadString(url);
 
                     Match m = Regex.Match(html_source, "<h3>(.*?)<");
                     id.Name = m.Groups[1].Value;
@@ -369,7 +427,7 @@ namespace FakeNameGenerator
                     id.Vehicle = m.Groups[1].Value;
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }

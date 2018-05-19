@@ -7,3 +7,10 @@ c:\users\admin\desktop\programming\net\FakeNameGenerator\FakeNameGenerator\obj\D
 C:\Users\Admin\Desktop\FakeNameGenerator\FakeNameGenerator\bin\Debug\FakeNameGenerator.exe.config
 C:\Users\Admin\Desktop\FakeNameGenerator\FakeNameGenerator\obj\Debug\FakeNameGenerator.exe
 C:\Users\Admin\Desktop\FakeNameGenerator\FakeNameGenerator\obj\Debug\FakeNameGenerator.pdb
+D:\Documents\Visual Studio 2017\Projects\C#\FakeNameGenerator\FakeNameGenerator\bin\Debug\FakeNameGenerator.exe.config
+D:\Documents\Visual Studio 2017\Projects\C#\FakeNameGenerator\FakeNameGenerator\bin\Debug\FakeNameGenerator.exe
+D:\Documents\Visual Studio 2017\Projects\C#\FakeNameGenerator\FakeNameGenerator\bin\Debug\FakeNameGenerator.pdb
+D:\Documents\Visual Studio 2017\Projects\C#\FakeNameGenerator\FakeNameGenerator\obj\Debug\FakeNameGenerator.csprojResolveAssemblyReference.cache
+D:\Documents\Visual Studio 2017\Projects\C#\FakeNameGenerator\FakeNameGenerator\obj\Debug\FakeNameGenerator.csproj.CoreCompileInputs.cache
+D:\Documents\Visual Studio 2017\Projects\C#\FakeNameGenerator\FakeNameGenerator\obj\Debug\FakeNameGenerator.exe
+D:\Documents\Visual Studio 2017\Projects\C#\FakeNameGenerator\FakeNameGenerator\obj\Debug\FakeNameGenerator.pdb

@@ -7,8 +7,11 @@ namespace FakeNameGenerator
         static void Main(string[] args)
         {
             FakeNameGeneratorAPI FNGAPI = new FakeNameGeneratorAPI();
+            FNGAPI.AdvancedOptions.Enable();
+            FNGAPI.AdvancedOptions.MinAge = 18;
 
-            Identity id = FNGAPI.CreateIdentity(Gender.Male, NameSet.American, Country.Spain);
+            Identity id = FNGAPI.CreateIdentity(new NameSet[] {NameSet.French, NameSet.American}, new Country[] {Country.Finland, Country.Brazil, Country.Estonia});
+            //Identity id = FNGAPI.CreateIdentity(Gender.Male, NameSet.American, Country.Spain);
 
             Console.WriteLine("                 Name: {0}", id.Name);
             Console.WriteLine("              Address: {0}", id.Address);
