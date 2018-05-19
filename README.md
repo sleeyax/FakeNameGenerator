@@ -4,6 +4,7 @@ This project is a fork of [regnatmalum's FakeNameGenerator API](https://github.c
 ## What's new?
 * 'Advanced options' data search.
 * Multiple NameSets and Countries can  be passed as params
+* Random gender
 
 ## Usage (original)
 ````
